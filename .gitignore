@@ -1,0 +1,22 @@
+### IntelliJ IDEA / JetBrains ###
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+### Firebender ###
+.firebender/
+
+### Gradle (향후 코드 추가 대비) ###
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### Kotlin ###
+.kotlin/
+local.properties
+
+### OS ###
+.DS_Store
+Thumbs.db
