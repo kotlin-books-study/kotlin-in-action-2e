@@ -97,3 +97,55 @@ int max = JoinKt.MAX_COUNT;                 // 정적 필드처럼 접근
 ```
 
 - **도혁 :**
+
+### @JvmOverloads: 자바에서 디폴트 파라미터를 제한적으로 지원
+자바는 코틀린과 다르게 디폴트 파라미터를 지원하지 않는다. 따라서 별도 처리가 없는 경우엔 자바에서 모든 파라미터에 값을 넣어야 하는 불편함이 있다.
+
+`JvmOverloads` 는 이런 경우에 사용하는 어노테이션으로 자바에서도 디폴트 파라미터를 **제한적으로** 사용할 수 있도록 만들어준다.
+
+아래와 같은 코틀린 메소드가 있다고 해보자.
+
+```kotlin
+fun normalFoobar(foo: Float = 0.0f, bar: Int = 1, baz: Int = 2) { /* ... */ }
+
+@JvmOverloads
+fun overLoadsFoobar(foo: Float = 0.0f, bar: Int = 1, baz: Int = 2) { /* ... */ }
+```
+
+이 메소드를 자바로 변환하면 아래 같은 메소드가 함께 선언된다.
+```java
+// JvmOverLoads 가 없는 경우
+public void normalFoobar(Float foo, Int bar, Int baz) { /* ... */ }
+
+// JvmOverLoads 가 있는 경우
+public void staticFoobar(Float foo, Int bar, Int baz) { /* ... */ }
+public void staticFoobar(Float foo, Int bar) { /* baz 기본 값 적용 */ }
+public void staticFoobar(Float foo) { /* bar, baz 기본 값 적용 */ }
+```
+
+이 메소드를 보면 디폴트 파라미터를 **제한적으로** 지원한다는 얘기를 이해할 수 있다. 파라미터의 끝 부분을 한 개씩 줄여가며 메소드를 추가하는 방식으로 구현되기 때문에, baz 만 값을 제공해서 foo 나 bar 같이 앞 부분에 있는 파라미터만 디폴트 파라미터를 적용할 수는 없다.
+
+### 코틀린의 최상위 함수와 프로퍼티
+
+자바에서는 최상위 함수와 프로퍼티가 선언될 수 없으므로, 컴파일러가 코드가 작성된 파일의 이름을 생성하여 처리한다
+
+```kotlin
+// Foo.kt
+fun bar() { /* ... */}
+var baz = 0
+```
+
+```java
+public final class Foo {
+    
+    // bar 변환
+    public final static void bar() { /* ... */ }
+
+    // baz 변환
+    public static int baz;
+
+    // baz 에 대한 getter, setter
+    public static final int getBaz() { return baz; }
+    public static final void setBaz(int var0) { baz = var0; }
+}
+```
