@@ -25,7 +25,7 @@ git add . && git commit -m "docs: 2장 문제 - 현정"
 git push origin ch02-hyunjung
 ```
 
-그다음 GitHub에서 **Compare & pull request**로 PR을 엽니다. (제목 예: `[2장] 현정`)
+그다음 GitHub에서 **Compare & pull request**로 PR을 엽니다. (제목 예: `[2장] 코틀린 기초`)
 <br />
 해당 PR에서 문제를 읽고 답을 준비합니다.
 
